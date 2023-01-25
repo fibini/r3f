@@ -1,16 +1,32 @@
 import * as Three from 'three'
+import { useEffect, useRef, useMemo } from 'react'
 
 export default function CustomObject()
 {
-    const verticesCount = 10 * 3
-    const positions = new Float32Array(verticesCount * 3)
+    const geometry = useRef()
+    
 
-    for(let i = 0; i < verticesCount * 3; i++)
+    const verticesCount = 10 * 3
+    
+
+    const positions = useMemo(() =>
     {
-        positions[i] = (Math.random() -0.5) * 3
-    }
+        const positions = new Float32Array(verticesCount * 3)
+
+        for(let i = 0; i < verticesCount * 3; i++)
+        {
+            positions[i] = (Math.random() -0.5) * 3
+        }
+        return positions
+    }, [])
+
+    useEffect(() => 
+    {
+        geometry.current.computeVertexNormals()
+    }, [])
+
     return <mesh>
-        <bufferGeometry>
+        <bufferGeometry ref={ geometry }>
             <bufferAttribute 
                 attach="attributes-position"
                 count={ verticesCount }
@@ -18,6 +34,6 @@ export default function CustomObject()
                 array={ positions }
             />
         </bufferGeometry>
-        <meshBasicMaterial color= 'red' side={ Three.DoubleSide } />
+        <meshStandardMaterial color= 'red' side={ Three.DoubleSide } />
     </mesh>
 }
