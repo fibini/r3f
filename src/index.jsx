@@ -6,6 +6,11 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <>
-        <Canvas></Canvas>
+        <Canvas>
+            <mesh>
+                <torusKnotGeometry />
+                <meshNormalMaterial />
+            </mesh>
+        </Canvas>
     </>
 )
